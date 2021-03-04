@@ -1,21 +1,18 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block head %}
+{% load static %}
+{% endblock %}
+{% block body %}
+<div class="container">
     <form id="login_form" action="{% url 'login' %}" method="POST">
         {% csrf_token %}
         <input type="text" name="username">
         <input type="password" name="password">
-        <button type="submit" name="submit">ورود</button>
+        <button type="submit" name="submit" class="btn btn-success">ورود</button>
         {% if error == "invalid_credentials_error" %}
             <div id="errors"><p>نام کاربری یا رمزعبور اشتباه است.</p></div>
         {% endif %}
     </form>
-</body>
-</html>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% load static %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <form id="make_product" action="/panel/new" method="POST">
+        {% csrf_token %}
+        <input type="text" name="name">
+        <input type="number" name="quantity">
+        <input type="number" name="price">
+        <button type="submit" name="submit" class="btn btn-success">ثبت</button>
+    </form>
+</div>
+{% endblock %}

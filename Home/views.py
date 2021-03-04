@@ -3,6 +3,8 @@ from django.core.mail import send_mail
 
 
 # Create your views here.
+from webelopers2021.settings import EMAIL_HOST_USER
+
 
 def homepage(request):
     if request.method == "GET":
@@ -22,5 +24,5 @@ def contactus(request):
             # contact = ContactUs(title=title, email=email, text=text)
             # contact.save()
             content = email + '\n' + text
-            send_mail(title, content, "asdsd@gmail.com", ['webe21lopers@gmail.com'], fail_silently=False, )
+            send_mail(title, content, EMAIL_HOST_USER, ['webe21lopers@gmail.com'], fail_silently=False, )
         return render(request, 'Home/contact.html', args)

@@ -2,27 +2,32 @@
 
 {% block head %}
 {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'Home/all_products.css' %}">
+
+
 {% endblock %}
 {% block body %}
-<div class="container">
-    <form id="search_products" method="POST" action="/search_products/">
-        {% csrf_token %}
-        <input name="title" type="text">
-        <input name="min_price" type="number">
-        <input name="max_price" type="number">
-        <button type="submit" name="submit">جستجو</button>
-    </form>
-    <div id="all_products">
-        {% for product in products %}
-        <div class="{{product.class}}">
-            <h4>{{product.name}}</h4>
-            <div>{{product.price}}</div>
-            <div>{{product.quantity}}</div>
-            <div>{{product.seller_first_name}}</div>
-            <div>{{product.seller_last_name}}</div>
-        </div>
-
-        {% endfor %}
+<form id="search_products" method="POST" action="/search_products/">
+    <h1>صفحه محصولات</h1>
+    <p dir="rtl">شما می‌توانید تمامی محصولات را در این صفحه ببینید و بین آن‌ها جستجو کنید.</p>
+    {% csrf_token %}
+    <div class="row" dir="ltr">
+        <div class="col-4"><input name="title" type="text" class="form-control" placeholder="متن جستجو"></div>
+        <div class="col-3"><input name="min_price" type="number" class="form-control" placeholder="حد پایین قیمت"></div>
+        <div class="col-3"><input name="max_price" type="number" class="form-control" placeholder="حد بالا قیمت"></div>
+        <div class="col-2"><button type="submit" name="submit" class="btn btn-success" id="search_btn">جستجو</button></div>
     </div>
+</form>
+<div id="all_products" class="row all_products">
+    {% for product in products %}
+    <div class="{{product.class}} product col-4">
+        <h4>{{product.name}}</h4>
+        <div>قیمت: {{product.price}} تومان</div>
+        <div>موجودی: {{product.quantity}} عدد</div>
+        <div>فروشنده: {{product.seller_first_name}} {{product.seller_last_name}}</div>
+    </div>
+
+    {% endfor %}
 </div>
 {% endblock %}

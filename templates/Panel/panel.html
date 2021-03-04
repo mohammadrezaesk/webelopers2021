@@ -2,26 +2,39 @@
 
 {% block head %}
 {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'Panel/panel.css' %}">
+
 {% endblock %}
 {% block body %}
-<div class="cotainer">
-    <form id="become_seller" action="/panel/" method="POST">
-        {% csrf_token %}
-        <button type="submit" name="submit">می‌خواهم فروشنده شوم</button>
-    </form>
+<h1>پنل کاربری</h1>
+<div class="row">
+    <div class="col-4">
+        <form id="become_seller" action="/panel/" method="POST">
+            {% csrf_token %}
+            <button type="submit" name="submit" class="btn btn-success">می‌خواهم فروشنده شوم</button>
+        </form>
+    </div>
+    {% if is_seller %}
+    <div class="col-4">
+        <a id="make_new_product" href="/panel/new/" class="btn btn-success">ثبت محصول جدید</a>
+    </div>
+    <div class="col-4">
+        <a id="my_products" href="/panel/my_products/" class="btn btn-success">لیست محصولات</a>
+    </div>
+    {% endif %}
+</div>
+<div class="row">
     <div id="done">
         {% if done == "done" %}
-        <p>با موفقیت فروشنده شدید</p>
+        <div class="alert alert-success" role="alert"><p>با موفقیت فروشنده شدید</p></div>
         {% endif %}
     </div>
     <div id="error">
         {% if error == "already_seller_error" %}
-        <p>شما فروشنده هستید</p>
+        <div class="alert alert-success" role="alert"><p>شما فروشنده هستید</p></div>
         {% endif %}
     </div>
-    {% if is_seller %}
-    <a id="make_new_product" href="/panel/new/">ثبت محصول جدید</a>
-    <a id="my_products" href="/panel/my_products/">لیست محصولات</a>
-    {% endif %}
 </div>
+
 {% endblock %}

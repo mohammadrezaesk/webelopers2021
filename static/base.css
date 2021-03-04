@@ -1,4 +1,48 @@
-/*@font-face {*/
-/*  font-family: myFirstFont;*/
-/*  src: url();*/
-/*}*/
+@font-face {
+  font-family: iranSans;
+  src: url("./IRANSANS(FANUM)_MEDIUM.TTF");
+}
+@font-face {
+  font-family: iranSansLight;
+  src: url("./IRANSANS(FANUM)_LIGHT.TTF");
+}
+*{
+  font-family: iranSans;
+  margin: 0;
+  padding: 0;
+}
+.bg-light {
+  background-color:#15883e!important;
+}
+input{
+  display: inline-block !important;
+}
+body{
+  background-color: #232121;
+}
+.row{
+  margin: 0!important;
+}
+p{
+  font-family: iranSansLight;
+}
+.container{
+    padding-top: 100px;
+}
+.btn-success{
+    background-color:#15883e!important;
+
+}
+.btn{
+  border-radius: 50px!important;
+}
+h1{
+  font-size: 55px;
+}
+#navbar{
+  color: white!important;
+}
+.navbar-light .navbar-nav .nav-link{
+  /*color: white!important;*/margin: auto 10px;
+
+}

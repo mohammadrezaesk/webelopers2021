@@ -2,17 +2,24 @@
 
 {% block head %}
 {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'Accounts/form_page.css' %}">
+
 {% endblock %}
 {% block body %}
-<div class="container">
-    <form id="login_form" action="{% url 'login' %}" method="POST">
-        {% csrf_token %}
-        <input type="text" name="username">
-        <input type="password" name="password">
-        <button type="submit" name="submit" class="btn btn-success">ورود</button>
+<form id="login_form" action="{% url 'login' %}" method="POST">
+    <h1>صفحه ورود</h1>
+    <p dir="rtl">برای ورود به فروشگاه وبلوپرز از طریق فرم زیر اقدام نمایید.</p>
+    {% csrf_token %}
+        <input type="text" name="username" class="form-control" placeholder="نام‌کاربری">
+        <input type="password" name="password" class="form-control" placeholder="رمز عبور">
+        <div class="row">
+            <button type="submit" name="submit" class="btn btn-success">ورود</button>
+        </div>
+
         {% if error == "invalid_credentials_error" %}
-            <div id="errors"><p>نام کاربری یا رمزعبور اشتباه است.</p></div>
+
+            <div id="errors" class="alert alert-danger" role="alert"><p>نام کاربری یا رمزعبور اشتباه است.</p></div>
         {% endif %}
-    </form>
-</div>
+</form>
 {% endblock %}

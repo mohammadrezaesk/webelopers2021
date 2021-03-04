@@ -2,18 +2,24 @@
 
 {% block head %}
 {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'Accounts/form_page.css' %}">
+
 {% endblock %}
 {% block body %}
-<div class="container">
-    <form id="edit_product" action="/panel/edit_product/{{product.pk}}/" method="POST">
-        {% csrf_token %}
-        <input type="text" name="name" value="{{product.name}}">
-        <input type="number" name="quantity" value="{{product.quantity}}">
-        <input type="number" name="price" value="{{product.price}}">
+<form id="edit_product" action="/panel/edit_product/{{product.pk}}/" method="POST">
+    <h1>ویرایش محصول {{product.pk}}</h1>
+    <p dir="rtl">در این قسمت می‌توانید اطلاعات محصول خود را ویرایش نمایید.</p>
+    {% csrf_token %}
+    <input type="text" name="name" value="{{product.name}}" class="form-control">
+    <input type="number" name="quantity" value="{{product.quantity}}" class="form-control">
+    <input type="number" name="price" value="{{product.price}}" class="form-control">
+    <div class="row">
         <button type="submit" name="submit" class="btn btn-success">ویرایش</button>
-        {% if error == "invalid_credentials_error" %}
-            <div id="errors"><p>نام کاربری یا رمزعبور اشتباه است.</p></div>
-        {% endif %}
-    </form>
-</div>
+    </div>
+
+    {% if error == "invalid_credentials_error" %}
+        <div id="errors"><p>نام کاربری یا رمزعبور اشتباه است.</p></div>
+    {% endif %}
+</form>
 {% endblock %}

@@ -2,23 +2,27 @@
 
 {% block head %}
 {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'Home/all_products.css' %}">
 {% endblock %}
 {% block body %}
-<div class="container">
-    <div id="all_products">
-
-
-        {% for product in products %}
-        <div class="{{product.class}}">
-            <h4>{{product.name}}</h4>
-            <div>{{product.price}}</div>
-            <div>{{product.quantity}}</div>
-            <a id="edit_{{product.class}}" href="/panel/edit_product/{{product.id}}/">ویرایش</a>
-            <a id="delete_{{product.class}}" href="/panel/delete_product/{{product.id}}/">حذف</a>
-
+<div id="all_products" class="all_products">
+    <h1>صفحه محصولات من</h1>
+    <p dir="rtl">در این صفحه تمامی محصولات متعلق به شما موجود هستند.</p>
+    {% for product in products %}
+    <div class="{{product.class}} row product">
+        <h4>{{product.name}}</h4>
+        <div>قیمت: {{product.price}} تومان</div>
+        <div>موجودی: {{product.quantity}} عدد</div>
+        <div class="row actions">
+            <a id="edit_{{product.class}}" href="/panel/edit_product/{{product.id}}/" class="btn">ویرایش</a>
+            <a id="delete_{{product.class}}" href="/panel/delete_product/{{product.id}}/" class="btn">حذف</a>
         </div>
 
-        {% endfor %}
+
     </div>
+
+    {% endfor %}
 </div>
+
 {% endblock %}

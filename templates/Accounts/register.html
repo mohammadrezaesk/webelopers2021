@@ -2,26 +2,32 @@
 
 {% block head %}
 {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'Accounts/form_page.css' %}">
 {% endblock %}
 {% block body %}
-<div class="container">
-    <form id="register_form" method="POST" action="/accounts/register/">
-        {% csrf_token %}
-        <input name='first_name' type="text" class="form-control" placeholder="First Name" required>
-        <input name='last_name' type="text" class="form-control" placeholder="Last Name" required>
-        <input name='username' type="text" class="form-control" placeholder="Username" required>
-        <input name='email' type="email" class="form-control" placeholder="E-mail" required>
-        <input name='password1' type="password" class="form-control" placeholder="Password" required>
-        <input name='password2' type="password" class="form-control" placeholder="Password Again" required>
+<form id="register_form" method="POST" action="/accounts/register/">
+    <h1>صفحه ثبت‌نام</h1>
+    <p dir="rtl">برای ثبت‌نام در فروشگاه وبلوپرز از طریق فرم زیر اقدام نمایید.</p>
+    {% csrf_token %}
+    <input name='first_name' type="text" class="form-control" placeholder="نام" required>
+    <input name='last_name' type="text" class="form-control" placeholder="نام خانوادگی" required>
+    <input name='username' type="text" class="form-control" placeholder="نام کاربری" required>
+    <input name='email' type="email" class="form-control" placeholder="آدرس الکترونیکی" required>
+    <input name='password1' type="password" class="form-control" placeholder="رمز عبور" required>
+    <input name='password2' type="password" class="form-control" placeholder="تکرار رمز عبور" required>
+    <div class="row">
         <button name='submit' class="btn btn-success">ثبت‌نام</button>
-    </form>
+    </div>
     <div id="errors">
     {% if error == "username_taken_error" %}
-        <p>نام کاربری شما در سیستم موجود است</p>
+        <div class="alert alert-danger" role="alert"><p>نام کاربری شما در سیستم موجود است</p></div>
     {% elif error == "passwords_match_error" %}
-        <p>گذرواژه و تکرار گذرواژه یکسان نیستند</p>
+        <div class="alert alert-danger" role="alert"><p>گذرواژه و تکرار گذرواژه یکسان نیستند</p></div>
     {% endif %}
-
     </div>
-</div>
+
+</form>
+
+
 {% endblock %}

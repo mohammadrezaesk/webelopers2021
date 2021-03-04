@@ -1,0 +1,55 @@
+.product{
+    background-color: #15883e;
+    border-radius: 10px;
+    width: 32%;
+    padding: 20px 10px;
+    border: none;
+    margin: 5px;
+    display: inline-block;
+    margin: auto;
+    color: white;
+    box-shadow: 0 0 10px black;
+}
+.all_products{
+    text-align: center;
+    text-align: center;
+    color: white;
+}
+.row{
+    margin: 0!important;
+    text-align: center;
+}
+form{
+    text-align: center;
+    color: white;
+    margin-bottom: 50px;
+}
+input, textarea{
+    margin: 3px auto;
+    text-align: center;
+    display: inline-block;
+    border-radius: 50px !important;
+    border: 1px black solid!important;
+    box-shadow: 0 0 10px black;
+    font-size: 15px!important;
+}
+#search_btn{
+    width: 100%;
+    border-radius: 50px !important;
+
+}
+.btn{
+    width: 100%;
+    border-radius: 10px!important;
+    background-color: #232121;
+    color: white;
+}
+.actions a{
+    width: 90%;
+    margin: 2px auto;
+
+
+}
+.row{
+    margin: 0!important;
+}

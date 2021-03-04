@@ -36,9 +36,6 @@ def all_products(request):
         title = request.POST["title"]
         min_price = int(request.POST["min_price"]) if request.POST["min_price"] else 0
         max_price = int(request.POST["max_price"]) if request.POST["max_price"] else 999999999
-        # price_query = Product.objects.filter(price__lte=max_price, price__gte=min_price).all()
-        # name_query = Product.objects.filter(name__contains=title).all()
-        # products = price_query | name_query
         products = Product.objects.filter(name__contains=title, price__lte=max_price, price__gte=min_price).all()
 
     args["products"] = [

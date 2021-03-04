@@ -2,15 +2,20 @@
 
 {% block head %}
 {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'Accounts/form_page.css' %}">
+
 {% endblock %}
 {% block body %}
-<div class="container">
-    <form id="make_product" action="/panel/new/" method="POST">
-        {% csrf_token %}
-        <input type="text" name="name">
-        <input type="number" name="quantity">
-        <input type="number" name="price">
+<form id="make_product" action="/panel/new/" method="POST">
+    <h1>صفحه ساخت محصول</h1>
+    <p dir="rtl">برای ساخت محصول جدید برای فروشگاه فرم زیر را با دقت پر کنید.</p>
+    {% csrf_token %}
+    <input type="text" name="name" class="form-control" placeholder="نام محصول">
+    <input type="number" name="quantity" class="form-control" placeholder="موجودی در انبار">
+    <input type="number" name="price" class="form-control" placeholder="قیمت محصول">
+    <div class="row">
         <button type="submit" name="submit" class="btn btn-success">ثبت</button>
-    </form>
-</div>
+    </div>
+</form>
 {% endblock %}

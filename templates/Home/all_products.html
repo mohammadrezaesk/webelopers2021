@@ -8,6 +8,8 @@
     <form id="search_products" method="POST" action="/search_products/">
         {% csrf_token %}
         <input name="title" type="text">
+        <input name="min_price" type="number">
+        <input name="max_price" type="number">
         <button type="submit" name="submit">جستجو</button>
     </form>
     <div id="all_products">

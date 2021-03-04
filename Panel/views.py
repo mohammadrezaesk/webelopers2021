@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
 from Panel.models import Product
 from Accounts.models import Account
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+@login_required
 def panel(request):
     args = {"error": "", "done": "", "is_seller": False}
-    if request.method == "GET" and not request.user.is_authenticated:
-        return render(request, 'Accounts/login.html', args)
     account = Account.objects.get(username=request.user.username)
     args['is_seller'] = account.role == 'seller'
     if request.method == "GET":
@@ -24,12 +24,9 @@ def panel(request):
         return render(request, "Panel/panel.html", args)
 
 
+@login_required
 def create_product(request):
     args = {"error": "", "done": "", "is_seller": False}
-
-    if request.method == "GET" and not request.user.is_authenticated:
-        args = {"error": ""}
-        return render(request, 'Accounts/login.html', args)
     account = Account.objects.get(username=request.user.username)
     args['is_seller'] = account.role == 'seller'
     if request.method == "POST":
@@ -41,12 +38,9 @@ def create_product(request):
     return render(request, "Panel/create_product.html")
 
 
+@login_required
 def my_products(request):
     args = {"is_seller": False, 'products': []}
-
-    if request.method == "GET" and not request.user.is_authenticated:
-        args = {"error": ""}
-        return render(request, 'Accounts/login.html', args)
     account = Account.objects.get(username=request.user.username)
     args['is_seller'] = account.role == 'seller'
     if request.method == "GET":
@@ -56,8 +50,27 @@ def my_products(request):
                 'class': f'{product.name.replace(" ", "_")}_{product.seller.username.replace(" ", "_")}',
                 'name': product.name,
                 'price': product.price,
-                'quantity': product.quantity
+                'quantity': product.quantity,
+                'id': product.pk
             }
             for product in products
         ]
         return render(request, "Panel/my_products.html", args)
+
+
+@login_required
+def edit_product(request, prd_id):
+    product = Product.objects.get(pk=prd_id)
+    if request.method == "GET":
+        args = {"product": product}
+        return render(request, "Panel/edit_product.html", args)
+    else:
+        name = request.POST['name']
+        price = request.POST['price']
+        quantity = request.POST['quantity']
+        product.name = name
+        product.price = price
+        product.quantity = quantity
+        product.save()
+        print("*********************************************")
+        return redirect("/panel/my_products",)

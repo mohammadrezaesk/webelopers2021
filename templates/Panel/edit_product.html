@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% load static %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <form id="edit_product" action="/panel/edit_product/{{product.pk}}/" method="POST">
+        {% csrf_token %}
+        <input type="text" name="name" value="{{product.name}}">
+        <input type="number" name="quantity" value="{{product.quantity}}">
+        <input type="number" name="price" value="{{product.price}}">
+        <button type="submit" name="submit" class="btn btn-success">ویرایش</button>
+        {% if error == "invalid_credentials_error" %}
+            <div id="errors"><p>نام کاربری یا رمزعبور اشتباه است.</p></div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

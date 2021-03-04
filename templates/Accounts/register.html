@@ -15,5 +15,12 @@
         <input name='password2' type="password" class="form-control" placeholder="Password Again" required>
         <button name='submit' class="btn btn-success">Submit</button>
     </form>
+    {% if error == "username_taken_error" %}
+    <div id="errors">
+        <p>نام کاربری شما در سیستم موجود است</p>
+    {% elif error == "passwords_match_error" %}
+        <p>گذرواژه و تکرار گذرواژه یکسان نیستند</p>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

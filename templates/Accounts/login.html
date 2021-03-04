@@ -8,12 +8,12 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{% url 'login' %}" method="POST">
+    <form id="login_form" action="{% url 'login' %}" method="POST">
         {% csrf_token %}
         <input type="text" name="username">
         <input type="password" name="password">
         <input type="submit" value="Login">
-        {% if error == "invalid credentials" %}
+        {% if error == "invalid_credentials_error" %}
             <div id="errors"><p>نام کاربری یا رمزعبور اشتباه است.</p></div>
         {% endif %}
     </form>

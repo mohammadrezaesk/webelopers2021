@@ -73,4 +73,11 @@ def edit_product(request, prd_id):
         product.quantity = quantity
         product.save()
         print("*********************************************")
-        return redirect("/panel/my_products",)
+        return redirect("/panel/my_products", )
+
+
+@login_required
+def delete_product(request, prd_id):
+    product = Product.objects.get(pk=prd_id)
+    Product.objects.get(pk=prd_id).delete()
+    return redirect("/panel/my_products", )

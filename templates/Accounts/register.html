@@ -13,14 +13,14 @@
         <input name='email' type="email" class="form-control" placeholder="E-mail" required>
         <input name='password1' type="password" class="form-control" placeholder="Password" required>
         <input name='password2' type="password" class="form-control" placeholder="Password Again" required>
-        <button name='submit' class="btn btn-success">Submit</button>
+        <button name='submit' class="btn btn-success">ثبت‌نام</button>
     </form>
-<!--    {% if error == "username_taken_error" %}-->
-<!--    <div id="errors">-->
-<!--        <p>نام کاربری شما در سیستم موجود است</p>-->
-<!--    {% elif error == "passwords_match_error" %}-->
-<!--        <p>گذرواژه و تکرار گذرواژه یکسان نیستند</p>-->
-<!--    </div>-->
-<!--    {% endif %}-->
+    {% if error == "username_taken_error" %}
+    <div id="errors">
+        <p>نام کاربری شما در سیستم موجود است</p>
+    {% elif error == "passwords_match_error" %}
+        <p>گذرواژه و تکرار گذرواژه یکسان نیستند</p>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

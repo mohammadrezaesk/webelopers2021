@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% load static %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <form id="contact_us_form" action="{% url 'contactus' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="title" required>
+        <input type="email" name="email" required>
+        <textarea name="text" required></textarea>
+        <button type="submit" name="submit" class="btn btn-success">ارسال</button>
+    </form>
+    <div id="done">
+        {% if done == "done" %}
+        <p>درخواست شما ثبت شد</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

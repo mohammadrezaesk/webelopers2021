@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 
+from Panel.models import Product
 
-# Create your views here.
 from webelopers2021.settings import EMAIL_HOST_USER
 
 
@@ -26,3 +26,20 @@ def contactus(request):
             content = email + '\n' + text
             send_mail(title, content, EMAIL_HOST_USER, ['webe21lopers@gmail.com'], fail_silently=False, )
         return render(request, 'Home/contact.html', args)
+
+
+def all_products(request):
+    args = {}
+    products = Product.objects.all()
+    args["products"] = [
+        {
+            'class': f'{product.name.replace(" ", "_")}_{product.seller.username.replace(" ", "_")}',
+            'name': product.name,
+            'price': product.price,
+            'quantity': product.quantity,
+            'seller_first_name': product.seller.first_name,
+            'seller_last_name': product.seller.last_name
+        }
+        for product in products
+    ]
+    return render(request, "Home/all_products.html", args)

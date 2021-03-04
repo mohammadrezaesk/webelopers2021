@@ -5,6 +5,20 @@
 {% endblock %}
 {% block body %}
 <div class="cotainer">
+    <form id="become_seller" action="/panel/become_seller/" method="POST">
+        {% csrf_token %}
+        <button type="submit" name="submit">می‌خواهم فروشنده شوم</button>
+    </form>
+    <div id="done">
+        {% if done == "done" %}
+        <p>با موفقیت فروشنده شدید</p>
+        {% endif %}
+    </div>
+    <div id="error">
+        {% if error == "already_seller_error" %}
+        <p>شما فروشنده هستید</p>
+        {% endif %}
+    </div>
     <a id="make_new_product" href="/panel/new/">ثبت محصول جدید</a>
 </div>
 {% endblock %}

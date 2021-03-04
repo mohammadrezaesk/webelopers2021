@@ -30,7 +30,10 @@ def contactus(request):
 
 def all_products(request):
     args = {}
-    products = Product.objects.all()
+    if request.method == "GET":
+        products = Product.objects.all()
+    else:
+        products = Product.objects.filter(name__contains=request.POST["title"])
     args["products"] = [
         {
             'class': f'{product.name.replace(" ", "_")}_{product.seller.username.replace(" ", "_")}',

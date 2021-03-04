@@ -5,6 +5,11 @@
 {% endblock %}
 {% block body %}
 <div class="container">
+    <form id="search_products" method="POST" action="/search_products/">
+        {% csrf_token %}
+        <input name="title" type="text">
+        <button type="submit" name="submit">جستجو</button>
+    </form>
     <div id="all_products">
         {% for product in products %}
         <div class="{{product.class}}">

@@ -1,14 +1,37 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from Panel.models import Product
 from Accounts.models import Account
 
 
 # Create your views here.
 def panel(request):
-    return render(request, "Panel/panel.html")
+    args = {"error": "", "done": "", "is_seller": False}
+    if request.method == "GET" and not request.user.is_authenticated:
+        return render(request, 'Accounts/login.html', args)
+    account = Account.objects.get(username=request.user.username)
+    args['is_seller'] = account.role == 'seller'
+    if request.method == "GET":
+        return render(request, "Panel/panel.html", args)
+    if request.method == "POST":
+        if account.role == "buyer":
+            account.role = "seller"
+            account.save()
+            args["done"] = "done"
+            args["is_seller"] = True
+        else:
+            args["error"] = "already_seller_error"
+
+        return render(request, "Panel/panel.html", args)
 
 
 def create_product(request):
+    args = {"error": "", "done": "", "is_seller": False}
+
+    if request.method == "GET" and not request.user.is_authenticated:
+        args = {"error": ""}
+        return render(request, 'Accounts/login.html', args)
+    account = Account.objects.get(username=request.user.username)
+    args['is_seller'] = account.role == 'seller'
     if request.method == "POST":
         name = request.POST['name']
         quantity = request.POST['quantity']
@@ -17,18 +40,3 @@ def create_product(request):
         product.save()
     return render(request, "Panel/create_product.html")
 
-
-def become_seller(request):
-    args = {"error": "", "done": ""}
-    if request.method == "GET":
-        return render(request, "Panel/panel.html", args)
-    else:
-        account = Account.objects.get(username=request.user.username)
-        if account.role == "buyer":
-            account.role = "seller"
-            account.save()
-            args["done"] = "done"
-        else:
-            args["error"] = "already_seller_error"
-
-        return render(request, "Panel/panel.html", args)

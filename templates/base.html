@@ -35,8 +35,12 @@
 
                 {% if request.user.is_authenticated %}
                 <li class="nav-item">
-                    <a id="logout" class="nav-link" href="/accounts/logout">خروج</a>
+                    <a id="logout" class="nav-link" href="/accounts/logout/">خروج</a>
                 </li>
+                <li class="nav-item">
+                    <a id="panel" class="nav-link" href="/panel/">پنل کاربری</a>
+                </li>
+
                 {% else %}
                 <li class="nav-item">
                     <a id="login" class="nav-link" href="/accounts/login/">ورود</a>

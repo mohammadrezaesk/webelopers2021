@@ -13,6 +13,9 @@
         <input type="text" name="username">
         <input type="password" name="password">
         <input type="submit" value="Login">
+        {% if error == "invalid credentials" %}
+            <div id="errors"><p>نام کاربری یا رمزعبور اشتباه است.</p></div>
+        {% endif %}
     </form>
 </body>
 </html>

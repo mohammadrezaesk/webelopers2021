@@ -33,6 +33,14 @@
             {% endfor %}
         </div>
         <div>فروشنده: {{product.seller_first_name}} {{product.seller_last_name}}</div>
+        <div id="product_rate">{{product.rate}}</div>
+        {% if product.seller_username != request.user.username %}
+        <form id=rate_{{product.class}} method="POST" action="/submit_rate/{{product.pk}}">
+            {% csrf_token %}
+            <input name="rate" type="number" min="0" max="5" placeholder="امتیاز">
+            <button name="submit" type="submit" class="btn-success btn">ثبت نظر</button>
+        </form>
+        {% endif %}
     </div>
 
     {% endfor %}

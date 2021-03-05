@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 
-from Panel.models import Product
+from Panel.models import Product, Rate
 
 from webelopers2021.settings import EMAIL_HOST_USER
 
@@ -55,16 +55,29 @@ def all_products(request):
                     result_set.append(prd)
         # products = Product.objects.filter(, price__lte=max_price, price__gte=min_price).filter().all()
 
-    args["products"] = [
-        {
-            'class': f'{product.name.replace(" ", "_")}_{product.seller.username.replace(" ", "_")}',
-            'name': product.name,
-            'price': product.price,
-            'quantity': product.quantity,
-            'seller_first_name': product.seller.first_name,
-            'seller_last_name': product.seller.last_name,
-            'tags': product.tag_set.all()
-        }
-        for product in result_set
-    ]
+    args['products'] = []
+    for product in result_set:
+        rates = Rate.objects.filter(product=product).values_list('score', flat=True)
+        args["products"].append(
+            {
+                'class': f'{product.name.replace(" ", "_")}_{product.seller.username.replace(" ", "_")}',
+                'name': product.name,
+                'price': product.price,
+                'pk': product.pk,
+                'quantity': product.quantity,
+                'seller_first_name': product.seller.first_name,
+                'seller_username': product.seller.username,
+                'rate': sum(rates) / len(rates) if len(rates) > 0 else 0,
+                'seller_last_name': product.seller.last_name,
+                'tags': product.tag_set.all()
+            })
+
     return render(request, "Home/all_products.html", args)
+
+
+def submit_rate(request, prd_id):
+    if request.method == "POST":
+        rate = request.POST['rate']
+        product = Product.objects.get(pk=prd_id)
+        Rate(score=int(rate), product=product).save()
+    return redirect("/all_products")

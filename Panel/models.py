@@ -18,3 +18,8 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Rate(models.Model):
+    score = models.IntegerField(default=0)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=False)

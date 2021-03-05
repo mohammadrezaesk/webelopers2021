@@ -51,7 +51,7 @@ def all_products(request):
             tags = [t.strip() for t in request.POST['tag'].split(',')]
             query = query.all()
             for prd in query:
-                if set([t.name for t in prd.tag_set.all()]) == set(tags):
+                if set([t.name for t in prd.tag_set.all()]).intersection(set(tags)) == set(tags):
                     result_set.append(prd)
         # products = Product.objects.filter(, price__lte=max_price, price__gte=min_price).filter().all()
 

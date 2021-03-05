@@ -30,9 +30,9 @@ def create_product(request):
     account = Account.objects.get(username=request.user.username)
     args['is_seller'] = account.role == 'seller'
     if request.method == "POST":
-        name = request.POST['name'].strip()
-        quantity = request.POST['quantity']
-        price = request.POST['price']
+        name = request.POST.get('name', '').strip()
+        quantity = request.POST.get('quantity', 0).strip()
+        price = request.POST.get('price', 0).strip()
         product = Product(name=name, quantity=quantity, price=price, seller=account)
         product.save()
         tags = [t.strip() for t in request.POST['tag'].split(',')]
@@ -73,10 +73,10 @@ def edit_product(request, prd_id):
         args = {"product": product, 'tags': ','.join([t.name.strip() for t in product.tag_set.all()])}
         return render(request, "Panel/edit_product.html", args)
     else:
-        name = request.POST['name']
-        price = request.POST['price']
-        quantity = request.POST['quantity']
-        image = request.POST['product_image']
+        name = request.POST.get('name')
+        price = request.POST.get('price')
+        quantity = request.POST.get('quantity')
+        image = request.POST.get('product_image')
         tags = [t.strip() for t in request.POST['tag'].split(',')]
         query = Tag.objects.filter(product=product)
         for tag in query:

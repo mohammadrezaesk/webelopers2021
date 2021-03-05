@@ -31,12 +31,29 @@ def contactus(request):
 def all_products(request):
     args = {}
     if request.method == "GET":
-        products = Product.objects.all()
+        result_set = Product.objects.all()
+
     else:
         title = request.POST["title"]
-        min_price = int(request.POST["min_price"]) if request.POST["min_price"] else 0
-        max_price = int(request.POST["max_price"]) if request.POST["max_price"] else 999999999
-        products = Product.objects.filter(name__contains=title, price__lte=max_price, price__gte=min_price).all()
+        query = Product.objects.all()
+        if request.POST["min_price"]:
+            query = query.filter(price__gte=int(request.POST["min_price"]))
+        if request.POST["max_price"]:
+            query = query.filter(price__lte=int(request.POST["max_price"]))
+        if request.POST["title"]:
+            query = query.filter(name__contains=request.POST["title"])
+        if request.POST["seller_name"]:
+            query = query.filter(seller__username__contains=request.POST["seller_name"])
+        result_set = query.all()
+
+        if request.POST['tag']:
+            result_set = []
+            tags = [t.strip() for t in request.POST['tag'].split(',')]
+            query = query.all()
+            for prd in query:
+                if set([t.name for t in prd.tag_set.all()]).intersection(set(tags)):
+                    result_set.append(prd)
+        # products = Product.objects.filter(, price__lte=max_price, price__gte=min_price).filter().all()
 
     args["products"] = [
         {
@@ -48,6 +65,6 @@ def all_products(request):
             'seller_last_name': product.seller.last_name,
             'tags': product.tag_set.all()
         }
-        for product in products
+        for product in result_set
     ]
     return render(request, "Home/all_products.html", args)

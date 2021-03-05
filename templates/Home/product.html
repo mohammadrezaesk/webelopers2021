@@ -22,7 +22,7 @@
     {{product.seller.last_name}}
 </div>
 <div id="comments">
-    {% for comment in product.comments %}
+    {% for comment in comments %}
     <div>
         {{comment.user.username}}
     </div>
@@ -31,8 +31,11 @@
     </div>
     {% endfor %}
 </div>
-<form id="write_comment" method="POST">
-    <textarea name="text" type="text" placeholder="متن نظر">
-    <button name="submit" type="submit" class="btn btn-success">مرتب سازی</button>
+{% if request.user.is_authenticated %}
+<form id="write_comment" method="POST" action="/comment/{{product.pk}}">
+    {%  csrf_token %}
+    <textarea name="text" type="text" placeholder="متن نظر" class="form-control"></textarea>
+    <button name="submit" type="submit" class="btn btn-success">ثبت نظر</button>
 </form>
+{% endif %}
 {% endblock %}

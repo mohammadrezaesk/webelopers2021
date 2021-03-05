@@ -98,6 +98,7 @@ def write_comment(request, prd_id):
     args = {}
     product = Product.objects.get(pk=prd_id)
     args['product'] = product
-    comment = Comment(user=request.user, product=product)
+    text = request.POST.get("text")
+    comment = Comment(user=request.user, product=product, text=text)
     comment.save()
     return redirect(f'/product/{prd_id}')

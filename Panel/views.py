@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from Panel.models import Product, Tag
 from Accounts.models import Account
 from django.contrib.auth.decorators import login_required
-
+from Panel.forms import EditForm
 
 # Create your views here.
 @login_required
@@ -33,8 +33,7 @@ def create_product(request):
         name = request.POST.get('name', '').strip()
         quantity = request.POST.get('quantity', 0).strip()
         price = request.POST.get('price', 0).strip()
-        image = request.POST.get('product_image')
-        product = Product(name=name, quantity=quantity, price=price, seller=account, image=image)
+        product = Product(name=name, quantity=quantity, price=price, seller=account)
         product.save()
         tags = [t.strip() for t in request.POST['tag'].split(',')]
         for tag in tags:
@@ -91,7 +90,7 @@ def edit_product(request, prd_id):
         product.quantity = quantity
         product.image = image
         product.save()
-        print("*********************************************")
+        print("*********************************************",type(image))
         return redirect("/panel/my_products", )
 
 

@@ -14,10 +14,10 @@
     {% csrf_token %}
     <div class="row" dir="ltr">
         <div class="col-2"><input name="title" type="text" class="form-control" placeholder="متن جستجو"></div>
-        <div class="col-2"><input name="seller_name" type="text" class="form-control" placeholder="فروشنده"></div>
-        <div class="col-2"><input name="tag" type="text" class="form-control" placeholder="تگ‌ها"></div>
         <div class="col-2"><input name="min_price" type="number" class="form-control" placeholder="حد پایین قیمت"></div>
         <div class="col-2"><input name="max_price" type="number" class="form-control" placeholder="حد بالا قیمت"></div>
+        <div class="col-2"><input name="seller_name" type="text" class="form-control" placeholder="فروشنده"></div>
+        <div class="col-2"><input name="tag" type="text" class="form-control" placeholder="تگ‌ها"></div>
         <div class="col-2"><button type="submit" name="submit" class="btn btn-success" id="search_btn">جستجو</button></div>
     </div>
 </form>

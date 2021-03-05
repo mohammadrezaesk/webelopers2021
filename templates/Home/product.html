@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'Home/product.css' %}">
+
+
+{% endblock %}
+{% block body %}
+<h4 id="name">{{product.name}}</h4>
+<div id="quantity">
+    {{product.quantity}}
+</div>
+<div id="price">
+    {{product.price}}
+</div>
+<div id="seller_name">
+    {{product.seller.first_name}}
+</div>
+<div id="seller_family">
+    {{product.seller.last_name}}
+</div>
+{% endblock %}

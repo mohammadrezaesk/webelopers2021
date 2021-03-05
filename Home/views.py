@@ -81,3 +81,10 @@ def submit_rate(request, prd_id):
         product = Product.objects.get(pk=prd_id)
         Rate(score=int(rate), product=product).save()
     return redirect("/all_products")
+
+
+def product_page(request, prd_id):
+    args = {}
+    if request.method == "GET":
+        args["product"] = Product.objects.get(pk=prd_id)
+        return render(request, "Home/product.html", args)

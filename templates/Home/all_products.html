@@ -21,6 +21,9 @@
         <div class="col-2"><button type="submit" name="submit" class="btn btn-success" id="search_btn">جستجو</button></div>
     </div>
 </form>
+<!--<form id="order_products" method="POST">-->
+<!--    <input name="order_type" type="select" placeholder="مرتب سازی بر اساس...">-->
+<!--</form>-->
 <div id="all_products" class="row all_products">
     {% for product in products %}
     <div class="{{product.class}} product col-4">
@@ -33,6 +36,7 @@
             {% endfor %}
         </div>
         <div>فروشنده: {{product.seller_first_name}} {{product.seller_last_name}}</div>
+        <a id="{{product.class}}" href="/product/{{product.pk}}" class="btn btn-success">صفحه محصول</a>
         <div id="product_rate">{{product.rate}}</div>
         <form id="rate_{{product.class}}" method="POST" action="/submit_rate/{{product.pk}}">
             {% csrf_token %}

@@ -40,6 +40,8 @@ def create_product(request):
             query = Tag.objects.filter(name=tag, product=product)
             if query.count() == 0:
                 Tag(name=tag, product=product).save()
+        return redirect("/panel/my_products/")
+
     return render(request, "Panel/create_product.html")
 
 

@@ -2,7 +2,6 @@ from django.db import models
 from Accounts.models import Account
 
 
-# Create your models here.
 class Product(models.Model):
     name = models.CharField(max_length=100, default="")
     quantity = models.IntegerField()

@@ -82,7 +82,8 @@ def all_products(request):
 
         if int(quantity) > int(product.quantity):
             error += "موجودی محصول کافی نیست"
-        if product.seller.username == request.user.username:
+
+        elif product.seller.username == request.user.username:
             error += "شما نمی‌توانید محصول خود را خریداری کنید"
         if error:
             products = Product.objects.all()

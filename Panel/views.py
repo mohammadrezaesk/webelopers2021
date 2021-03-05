@@ -30,7 +30,7 @@ def create_product(request):
     account = Account.objects.get(username=request.user.username)
     args['is_seller'] = account.role == 'seller'
     if request.method == "POST":
-        name = request.POST['name']
+        name = request.POST['name'].strip()
         quantity = request.POST['quantity']
         price = request.POST['price']
         product = Product(name=name, quantity=quantity, price=price, seller=account)

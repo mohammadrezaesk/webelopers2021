@@ -30,8 +30,10 @@ input, textarea{
     display: inline-block;
     border-radius: 50px !important;
     border: 1px black solid!important;
+    width: 100% !important;
     box-shadow: 0 0 10px black;
     font-size: 15px!important;
+
 }
 #search_btn{
     width: 100%;
@@ -52,4 +54,7 @@ input, textarea{
 }
 .row{
     margin: 0!important;
+}
+#order_products{
+    width: 100%;
 }

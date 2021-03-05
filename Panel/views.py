@@ -76,6 +76,7 @@ def edit_product(request, prd_id):
         name = request.POST['name']
         price = request.POST['price']
         quantity = request.POST['quantity']
+        image = request.POST['product_image']
         tags = [t.strip() for t in request.POST['tag'].split(',')]
         query = Tag.objects.filter(product=product)
         for tag in query:
@@ -86,6 +87,8 @@ def edit_product(request, prd_id):
                 Tag(name=tag, product=product).save()
         product.name = name
         product.price = price
+        product.quantity = quantity
+        product.image = image
         product.save()
         print("*********************************************")
         return redirect("/panel/my_products", )

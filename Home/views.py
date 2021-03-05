@@ -34,7 +34,6 @@ def all_products(request):
         result_set = Product.objects.all()
 
     else:
-        title = request.POST["title"]
         query = Product.objects.all()
         if request.POST["min_price"]:
             query = query.filter(price__gte=int(request.POST["min_price"]))
@@ -69,9 +68,10 @@ def all_products(request):
                 'seller_username': product.seller.username,
                 'rate': sum(rates) / len(rates) if len(rates) > 0 else 0,
                 'seller_last_name': product.seller.last_name,
-                'tags': product.tag_set.all()
+                'tags': product.tag_set.all(),
+                'image': product.image,
             })
-
+        print(type(product.image))
     return render(request, "Home/all_products.html", args)
 
 

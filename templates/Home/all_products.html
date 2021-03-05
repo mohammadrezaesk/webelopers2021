@@ -28,6 +28,7 @@
     {% for product in products %}
     <div class="{{product.class}} product col-4">
         <h4>{{product.name}}</h4>
+        <img src="/media/{{product.image}}" id="profile_image_{{product.class}}">
         <div>قیمت: {{product.price}} تومان</div>
         <div>موجودی: {{product.quantity}} عدد</div>
         <div class="tags">

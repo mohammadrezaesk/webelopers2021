@@ -7,6 +7,7 @@ class Product(models.Model):
     quantity = models.IntegerField()
     price = models.IntegerField()
     seller = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)
+    image = models.ImageField(null=True, upload_to='media/static/images')
 
     def __str__(self):
         return self.name

@@ -14,6 +14,11 @@
         <h4>{{product.name}}</h4>
         <div>قیمت: {{product.price}} تومان</div>
         <div>موجودی: {{product.quantity}} عدد</div>
+        <div class="tags">
+            {% for tag in product.tags %}
+            {{tag}}
+            {% endfor %}
+        </div>
         <div class="row actions">
             <a id="edit_{{product.class}}" href="/panel/edit_product/{{product.id}}/" class="btn">ویرایش</a>
             <a id="delete_{{product.class}}" href="/panel/delete_product/{{product.id}}/" class="btn">حذف</a>

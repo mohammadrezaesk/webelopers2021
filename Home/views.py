@@ -45,7 +45,8 @@ def all_products(request):
             'price': product.price,
             'quantity': product.quantity,
             'seller_first_name': product.seller.first_name,
-            'seller_last_name': product.seller.last_name
+            'seller_last_name': product.seller.last_name,
+            'tags': product.tag_set.all()
         }
         for product in products
     ]

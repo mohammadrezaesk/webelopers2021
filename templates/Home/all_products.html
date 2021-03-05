@@ -25,6 +25,11 @@
         <h4>{{product.name}}</h4>
         <div>قیمت: {{product.price}} تومان</div>
         <div>موجودی: {{product.quantity}} عدد</div>
+        <div class="tags">
+            {% for tag in product.tags %}
+            {{tag}}
+            {% endfor %}
+        </div>
         <div>فروشنده: {{product.seller_first_name}} {{product.seller_last_name}}</div>
     </div>
 

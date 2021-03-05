@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from Panel.models import Product
+from Panel.models import Product, Tag
 from Accounts.models import Account
 from django.contrib.auth.decorators import login_required
 
@@ -35,6 +35,11 @@ def create_product(request):
         price = request.POST['price']
         product = Product(name=name, quantity=quantity, price=price, seller=account)
         product.save()
+        tags = [t.strip() for t in request.POST['tag'].split(',')]
+        for tag in tags:
+            query = Tag.objects.filter(name=tag, product=product)
+            if query.count() == 0:
+                Tag(name=tag, product=product).save()
     return render(request, "Panel/create_product.html")
 
 
@@ -45,13 +50,15 @@ def my_products(request):
     args['is_seller'] = account.role == 'seller'
     if request.method == "GET":
         products = account.product_set.all()
+        print(products[3].tag_set.all())
         args["products"] = [
             {
                 'class': f'{product.name.replace(" ", "_")}_{product.seller.username.replace(" ", "_")}',
                 'name': product.name,
                 'price': product.price,
                 'quantity': product.quantity,
-                'id': product.pk
+                'id': product.pk,
+                'tags': product.tag_set.all()
             }
             for product in products
         ]

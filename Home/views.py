@@ -46,12 +46,16 @@ def all_products(request):
         if request.POST["seller_name"]:
             query = query.filter(seller__username__contains=request.POST["seller_name"])
         result_set = query.all()
-        tag_set = QuerySet(model=Product)
+        tag_set = result_set
         if request.POST['tag']:
+            tag_set = Product.objects.none()
             tags = [t.strip() for t in request.POST['tag'].split(',')]
             for prd in result_set:
                 if set([t.name for t in prd.tag_set.all()]).intersection(set(tags)):
-                    tag_set = tag_set | prd
+                    tag_set |= Product.objects.filter(pk=prd.pk)
+        print(result_set)
+        print('*********************')
+        print(tag_set)
         result_set = result_set & tag_set
         # products = Product.objects.filter(, price__lte=max_price, price__gte=min_price).filter().all()
 

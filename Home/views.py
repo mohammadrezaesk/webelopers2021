@@ -35,17 +35,17 @@ def all_products(request):
 
     else:
         query = Product.objects.all()
-        if request.POST["min_price"]:
+        if request.POST.get("min_price"):
             query = query.filter(price__gte=int(request.POST["min_price"]))
-        if request.POST["max_price"]:
+        if request.POST.get("max_price"):
             query = query.filter(price__lte=int(request.POST["max_price"]))
-        if request.POST["title"]:
+        if request.POST.get("title"):
             query = query.filter(name__contains=request.POST["title"])
-        if request.POST["seller_name"]:
+        if request.POST.get("seller_name"):
             query = query.filter(seller__username__contains=request.POST["seller_name"])
         result_set = query.all()
 
-        if request.POST['tag']:
+        if request.POST.get('tag'):
             result_set = []
             tags = [t.strip() for t in request.POST['tag'].split(',')]
             query = query.all()

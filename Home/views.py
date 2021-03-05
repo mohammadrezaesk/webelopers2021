@@ -79,10 +79,11 @@ def all_products(request):
         product = Product.objects.get(pk=prd_id)
         quantity = request.POST.get("quantity")
         args["products"] = []
+
+        if int(quantity) > int(product.quantity):
+            error += "موجودی محصول کافی نیست"
         if product.seller.username == request.user.username:
-            error = "شما نمی‌توانید محصول خود را خریداری کنید"
-        elif int(quantity) > int(product.quantity):
-            error = "موجودی محصول کافی نیست"
+            error += "شما نمی‌توانید محصول خود را خریداری کنید"
         if error:
             products = Product.objects.all()
             for product in products:
@@ -161,33 +162,24 @@ def write_comment(request, prd_id):
 @login_required
 def cart(request):
     carts = Cart.objects.filter(buyer=request.user).all()
-    args = {"carts": list(carts), "total_price": 0}
+    group_by = {}
     for cart_ in carts:
-        product = cart_.product
+        if cart_.product.pk in group_by:
+            group_by[cart_.product.pk] += cart_.quantity
+        else:
+            group_by[cart_.product.pk] = cart_.quantity
+
+    args = {"carts": [], "total_price": 0}
+    for prd_pk in group_by:
+        product = Product.objects.get(pk=prd_pk)
         args["carts"].append(
             {
                 'class': f'{product.name.replace(" ", "_")}_{product.seller.username.replace(" ", "_")}',
                 'name': product.name,
                 'price': product.price,
                 'pk': product.pk,
-                'quantity': cart_.quantity,
+                'quantity': group_by[prd_pk],
             })
-        args["total_price"] += cart_.quantity * cart_.product.price
+        args["total_price"] += group_by[prd_pk] * product.price
     return render(request, "Home/cart.html", args)
 
-
-@login_required
-def add(request, prd_id):
-    error = ""
-    product = Product.objects.get(pk=prd_id)
-    quantity = request.POST.get("quantity")
-    if product.seller.username == request.user.username:
-        error = "شما نمی‌توانید محصول خود را خریداری کنید"
-    elif int(quantity) > int(product.quantity):
-        error = "موجودی محصول کافی نیست"
-    if error:
-        return redirect("/all_products/", error=error)
-
-    cart_ = Cart(product=product, quantity=quantity, buyer=request.user)
-    cart_.save()
-    return redirect("/cart/")

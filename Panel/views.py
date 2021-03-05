@@ -71,15 +71,22 @@ def my_products(request):
 def edit_product(request, prd_id):
     product = Product.objects.get(pk=prd_id)
     if request.method == "GET":
-        args = {"product": product}
+        args = {"product": product, 'tags': ','.join([t.name.strip() for t in product.tag_set.all()])}
         return render(request, "Panel/edit_product.html", args)
     else:
         name = request.POST['name']
         price = request.POST['price']
         quantity = request.POST['quantity']
+        tags = [t.strip() for t in request.POST['tag'].split(',')]
+        query = Tag.objects.filter(product=product)
+        for tag in query:
+            tag.delete()
+        for tag in tags:
+            query = Tag.objects.filter(name=tag, product=product)
+            if query.count() == 0:
+                Tag(name=tag, product=product).save()
         product.name = name
         product.price = price
-        product.quantity = quantity
         product.save()
         print("*********************************************")
         return redirect("/panel/my_products", )

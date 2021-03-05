@@ -21,9 +21,10 @@
         <div class="col-2"><button type="submit" name="submit" class="btn btn-success" id="search_btn">جستجو</button></div>
     </div>
 </form>
-<form id="order_products" method="POST">
-    <input name="order" type="text" placeholder="مرتب سازی بر اساس ...">
-    <input name="order_type" type="text" placeholder="به صورت ...">
+<form id="order_products" method="POST" action="/all_products/">
+    {% csrf_token %}
+    <input name="order_type" type="text" placeholder="مرتب سازی بر اساس ...">
+    <input name="order" type="text" placeholder="به صورت ...">
     <button name="submit" type="submit" class="btn btn-success">مرتب سازی</button>
 </form>
 <div id="all_products" class="row all_products">

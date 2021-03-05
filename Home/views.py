@@ -1,3 +1,5 @@
+from operator import itemgetter
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
@@ -31,10 +33,11 @@ def contactus(request):
 
 def all_products(request):
     args = {}
+    order_type = ""
     if request.method == "GET":
         result_set = Product.objects.all()
 
-    else:
+    elif request.method == "POST" and not request.POST.get("order"):
         query = Product.objects.all()
         if request.POST.get("min_price"):
             query = query.filter(price__gte=int(request.POST["min_price"]))
@@ -53,7 +56,22 @@ def all_products(request):
             for prd in query:
                 if set([t.name for t in prd.tag_set.all()]).intersection(set(tags)) == set(tags):
                     result_set.append(prd)
-        # products = Product.objects.filter(, price__lte=max_price, price__gte=min_price).filter().all()
+    elif request.method == "POST" and request.POST.get("order"):
+        order = request.POST.get("order")
+        order_type = request.POST.get("order_type")
+        order_map = {
+            'desc': '-',
+            'asc': ''
+        }
+        order_type_map = {
+            'نام فروشنده': "seller__username",
+            'قیمت': "price",
+            # "امتیاز محصول": 'rate',
+        }
+        if order_type in order_type_map:
+            result_set = Product.objects.order_by(f'{order_map[order]}{order_type_map[order_type]}').all()
+        else:
+            result_set = Product.objects.all()
 
     args['products'] = []
     for product in result_set:
@@ -72,7 +90,8 @@ def all_products(request):
                 'tags': product.tag_set.all(),
                 'image': product.image,
             })
-        print(type(product.image))
+    if order_type == "امتیاز محصول":
+        args['products'] = sorted(args['products'], key=itemgetter('rate'), reverse=(order == 'desc'))
     return render(request, "Home/all_products.html", args)
 
 

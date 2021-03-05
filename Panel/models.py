@@ -25,8 +25,14 @@ class Rate(models.Model):
     score = models.IntegerField(default=0)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=False)
 
+    def __str__(self):
+        return f'Rate(score={self.score}, product={self.product.name})'
+
 
 class Comment(models.Model):
+    text = models.CharField(max_length=200)
     user = models.ForeignKey(Account, on_delete=models.CASCADE, null=False)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=False)
-    text = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f'Comment(user={self.user.username}, product={self.product.name})'

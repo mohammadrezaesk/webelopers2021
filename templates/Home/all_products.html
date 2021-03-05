@@ -21,7 +21,9 @@
 </form>
 <div id="all_products" class="row all_products">
     {% for product in products %}
-    <div class="{{product.class}} product col-4">
+    <!--    row product-->
+
+    <div class="{{product.class}}">
         <h4>{{product.name}}</h4>
         <div>قیمت: {{product.price}} تومان</div>
         <div>موجودی: {{product.quantity}} عدد</div>

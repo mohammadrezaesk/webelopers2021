@@ -10,13 +10,14 @@
     <h1>صفحه محصولات من</h1>
     <p dir="rtl">در این صفحه تمامی محصولات متعلق به شما موجود هستند.</p>
     {% for product in products %}
-    <div class="{{product.class}} row product">
+<!--    row product-->
+    <div class="{{product.class}}">
         <h4>{{product.name}}</h4>
         <div>قیمت: {{product.price}} تومان</div>
         <div>موجودی: {{product.quantity}} عدد</div>
-        <div class="tags">
+        <div>
             {% for tag in product.tags %}
-            {{tag}}
+            {{tag}},
             {% endfor %}
         </div>
         <div class="row actions">

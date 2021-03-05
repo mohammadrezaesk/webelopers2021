@@ -25,4 +25,4 @@ urlpatterns = [
   path('', include('Home.urls')),
   path('accounts/', include('Accounts.urls')),
   path('panel/', include('Panel.urls')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

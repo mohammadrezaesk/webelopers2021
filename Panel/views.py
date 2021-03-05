@@ -33,7 +33,8 @@ def create_product(request):
         name = request.POST.get('name', '').strip()
         quantity = request.POST.get('quantity', 0).strip()
         price = request.POST.get('price', 0).strip()
-        product = Product(name=name, quantity=quantity, price=price, seller=account)
+        image = request.POST.get('product_image')
+        product = Product(name=name, quantity=quantity, price=price, seller=account, image=image)
         product.save()
         tags = [t.strip() for t in request.POST['tag'].split(',')]
         for tag in tags:

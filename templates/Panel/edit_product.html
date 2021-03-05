@@ -7,7 +7,7 @@
 
 {% endblock %}
 {% block body %}
-<form id="edit_product" action="/panel/edit_product/{{product.pk}}/" method="POST">
+<form id="edit_product" action="/panel/edit_product/{{product.pk}}/" method="POST" enctype="multipart/form-data">
     <h1>ویرایش محصول {{product.pk}}</h1>
     <p dir="rtl">در این قسمت می‌توانید اطلاعات محصول خود را ویرایش نمایید.</p>
     {% csrf_token %}

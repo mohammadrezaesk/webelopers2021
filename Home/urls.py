@@ -9,6 +9,8 @@ urlpatterns = [
     path('submit_rate/<int:prd_id>', views.submit_rate, name="submit_rate"),
     path('product/<int:prd_id>', views.product_page, name="product_page"),
     path('comment/<int:prd_id>', views.write_comment, name="write_comment"),
+    # path('a', views.all_products, name="add"),
+    path('cart/', views.cart, name="card"),
 
 
 ]

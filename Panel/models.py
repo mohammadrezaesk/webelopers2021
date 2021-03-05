@@ -8,7 +8,7 @@ class Product(models.Model):
     quantity = models.IntegerField()
     price = models.IntegerField()
     seller = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)
-    image = models.ImageField(null=True, upload_to='media/', blank=True)
+    image = models.ImageField(null=True, upload_to='images/', blank=True)
 
     def __str__(self):
         return self.name
@@ -37,3 +37,12 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment(user={self.user.username}, product={self.product.name})'
+
+
+class Cart(models.Model):
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f'Comment(user={self.buyer.username}, product={self.product.name})'

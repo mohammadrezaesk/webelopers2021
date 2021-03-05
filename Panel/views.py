@@ -4,6 +4,7 @@ from Accounts.models import Account
 from django.contrib.auth.decorators import login_required
 from Panel.forms import EditForm
 
+
 # Create your views here.
 @login_required
 def panel(request):
@@ -90,8 +91,26 @@ def edit_product(request, prd_id):
         product.quantity = quantity
         product.image = image
         product.save()
-        print("*********************************************",type(image))
         return redirect("/panel/my_products", )
+    # if request.method == "GET":
+    #     form = EditForm()
+    #     return render(request, "Panel/edit_product.html", {"form": form})
+    # else:
+    #     form = EditForm(request.POST, request.FILES)
+    #     product = Product.objects.get(pk=prd_id)
+    #     product.image = form.cleaned_data['image']
+    #     product.price = form.cleaned_data['price']
+    #     product.quantity = form.cleaned_data['quantity']
+    #     tags = [t.strip() for t in request.POST['tag'].split(',')]
+    #     query = Tag.objects.filter(product=product)
+    #     for tag in query:
+    #         tag.delete()
+    #     for tag in tags:
+    #         query = Tag.objects.filter(name=tag, product=product)
+    #         if query.count() == 0:
+    #             Tag(name=tag, product=product).save()
+    #     product.save()
+    #     return redirect("/panel/my_products", )
 
 
 @login_required

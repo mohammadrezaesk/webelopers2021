@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 
-from Panel.models import Product, Rate, Comment
+from Panel.models import Product, Rate, Comment, Cart
 
 from webelopers2021.settings import EMAIL_HOST_USER
 
@@ -32,12 +32,12 @@ def contactus(request):
 
 
 def all_products(request):
-    args = {}
+    args = {"error": ""}
     order_type = ""
-    if request.method == "GET":
-        result_set = Product.objects.all()
 
-    elif request.method == "POST" and not request.POST.get("order"):
+    result_set = Product.objects.all()
+
+    if request.method == "POST" and request.POST.get("type") == "search":
         query = Product.objects.all()
         if request.POST.get("min_price"):
             query = query.filter(price__gte=int(request.POST["min_price"]))
@@ -56,7 +56,7 @@ def all_products(request):
             for prd in query:
                 if set([t.name for t in prd.tag_set.all()]).intersection(set(tags)) == set(tags):
                     result_set.append(prd)
-    elif request.method == "POST" and request.POST.get("order"):
+    elif request.method == "POST" and request.POST.get("type") == "sort":
         order = request.POST.get("order")
         order_type = request.POST.get("order_type")
         order_map = {
@@ -72,7 +72,42 @@ def all_products(request):
             result_set = Product.objects.order_by(f'{order_map[order]}{order_type_map[order_type]}').all()
         else:
             result_set = Product.objects.all()
+    elif request.method == "POST" and request.POST.get("type") == "add":
+        print("*&*&*&*&*&*")
+        error = ""
+        prd_id = request.POST["prd_id"]
+        product = Product.objects.get(pk=prd_id)
+        quantity = request.POST.get("quantity")
+        args["products"] = []
+        if product.seller.username == request.user.username:
+            error = "شما نمی‌توانید محصول خود را خریداری کنید"
+        elif int(quantity) > int(product.quantity):
+            error = "موجودی محصول کافی نیست"
+        if error:
+            products = Product.objects.all()
+            for product in products:
+                rates = Rate.objects.filter(product=product).values_list('score', flat=True)
+                args["products"].append(
+                    {
+                        'class': f'{product.name.replace(" ", "_")}_{product.seller.username.replace(" ", "_")}',
+                        'name': product.name,
+                        'price': product.price,
+                        'pk': product.pk,
+                        'quantity': product.quantity,
+                        'seller_first_name': product.seller.first_name,
+                        'seller_username': product.seller.username,
+                        'rate': sum(rates) / len(rates) if len(rates) > 0 else 0,
+                        'seller_last_name': product.seller.last_name,
+                        'tags': product.tag_set.all(),
+                        'image': product.image,
+                    })
+            args["error"] = error
+            print(error, "***********8")
+            return render(request, "Home/all_products.html", args)
 
+        cart_ = Cart(product=product, quantity=quantity, buyer=request.user)
+        cart_.save()
+        return redirect("/cart/")
     args['products'] = []
     for product in result_set:
         rates = Rate.objects.filter(product=product).values_list('score', flat=True)
@@ -99,7 +134,7 @@ def submit_rate(request, prd_id):
     if request.method == "POST":
         rate = request.POST['rate']
         product = Product.objects.get(pk=prd_id)
-        Rate(score=int(rate), product=product).save()
+        Rate(score=float(rate), product=product).save()
     return redirect("/all_products")
 
 
@@ -121,3 +156,38 @@ def write_comment(request, prd_id):
     comment = Comment(user=request.user, product=product, text=text)
     comment.save()
     return redirect(f'/product/{prd_id}')
+
+
+@login_required
+def cart(request):
+    carts = Cart.objects.filter(buyer=request.user).all()
+    args = {"carts": list(carts), "total_price": 0}
+    for cart_ in carts:
+        product = cart_.product
+        args["carts"].append(
+            {
+                'class': f'{product.name.replace(" ", "_")}_{product.seller.username.replace(" ", "_")}',
+                'name': product.name,
+                'price': product.price,
+                'pk': product.pk,
+                'quantity': cart_.quantity,
+            })
+        args["total_price"] += cart_.quantity * cart_.product.price
+    return render(request, "Home/cart.html", args)
+
+
+@login_required
+def add(request, prd_id):
+    error = ""
+    product = Product.objects.get(pk=prd_id)
+    quantity = request.POST.get("quantity")
+    if product.seller.username == request.user.username:
+        error = "شما نمی‌توانید محصول خود را خریداری کنید"
+    elif int(quantity) > int(product.quantity):
+        error = "موجودی محصول کافی نیست"
+    if error:
+        return redirect("/all_products/", error=error)
+
+    cart_ = Cart(product=product, quantity=quantity, buyer=request.user)
+    cart_.save()
+    return redirect("/cart/")

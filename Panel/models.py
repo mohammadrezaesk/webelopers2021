@@ -24,3 +24,9 @@ class Tag(models.Model):
 class Rate(models.Model):
     score = models.IntegerField(default=0)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=False)
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, null=False)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=False)
+    text = models.CharField(max_length=200)

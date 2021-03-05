@@ -45,7 +45,8 @@ def all_products(request):
         if request.POST["seller_name"]:
             query = query.filter(seller__username__contains=request.POST["seller_name"])
         result_set = query.all()
-
+        print(result_set)
+        print(type(result_set))
         if request.POST['tag']:
             result_set = []
             tags = [t.strip() for t in request.POST['tag'].split(',')]

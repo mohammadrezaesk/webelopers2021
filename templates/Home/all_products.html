@@ -12,13 +12,14 @@
     <h1>صفحه محصولات</h1>
     <p dir="rtl">شما می‌توانید تمامی محصولات را در این صفحه ببینید و بین آن‌ها جستجو کنید.</p>
     {% csrf_token %}
-        <input name="title" type="text" class="form-control" placeholder="متن جستجو">
-        <input name="min_price" type="number" class="form-control" placeholder="حد پایین قیمت">
-        <input name="max_price" type="number" class="form-control" placeholder="حد بالا قیمت">
-        <input name="seller_name" type="text" class="form-control" placeholder="فروشنده">
-        <input name="tag" type="text" class="form-control" placeholder="تگ‌ها">
-        <button type="submit" name="submit" class="btn btn-success" id="search_btn">جستجو</button>
-
+    <div class="row" dir="ltr">
+        <div class="col-2"><input name="title" type="text" class="form-control" placeholder="متن جستجو"></div>
+        <div class="col-2"><input name="min_price" type="number" class="form-control" placeholder="حد پایین قیمت"></div>
+        <div class="col-2"><input name="max_price" type="number" class="form-control" placeholder="حد بالا قیمت"></div>
+        <div class="col-2"><input name="seller_name" type="text" class="form-control" placeholder="فروشنده"></div>
+        <div class="col-2"><input name="tag" type="text" class="form-control" placeholder="تگ‌ها"></div>
+        <div class="col-2"><button type="submit" name="submit" class="btn btn-success" id="search_btn">جستجو</button></div>
+    </div>
 </form>
 <div id="all_products" class="row all_products">
     {% for product in products %}
@@ -33,13 +34,13 @@
         </div>
         <div>فروشنده: {{product.seller_first_name}} {{product.seller_last_name}}</div>
         <div id="product_rate">{{product.rate}}</div>
-        {% if product.seller_username != request.user.username %}
+<!--        {% if product.seller_username != request.user.username %}-->
         <form id="rate_{{product.class}}" method="POST" action="/submit_rate/{{product.pk}}">
             {% csrf_token %}
             <input name="rate" type="number" min="0" max="5" placeholder="امتیاز">
             <button name="submit" type="submit" class="btn-success btn">ثبت نظر</button>
         </form>
-        {% endif %}
+<!--        {% endif %}-->
     </div>
 
     {% endfor %}

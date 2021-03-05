@@ -45,27 +45,29 @@
         {% if request.user.is_authenticated %}
         <form id="cart_{{product.class}}" method="POST" action="/all_products/">
             {% csrf_token %}
-            <input class="form-control" type="number" name="quantity" min="1">
+            <input class="form-control" type="number" name="quantity" min="1" placeholder="تعداد">
+            <button class="btn" type="submit" name="submit">اضافه کردن</button>
             <input name="prd_id" value="{{product.pk}}" style="opacity: 0" >
             <input name="type" type="text" value="add" style="opacity: 0">
-            <button class="btn btn-success" type="submit" name="submit">اضافه کردن</button>
         </form>
         {% endif %}
-        <div>قیمت: {{product.price}} تومان</div>
-        <div>موجودی: {{product.quantity}} عدد</div>
-        <div class="tags">
-            {% for tag in product.tags %}
-            {{tag}}
-            {% endfor %}
+        <div style="">
+            <div>قیمت: {{product.price}} تومان</div>
+            <div>موجودی: {{product.quantity}} عدد</div>
+            <div class="tags">
+                {% for tag in product.tags %}
+                {{tag}}
+                {% endfor %}
+            </div>
+            <div>فروشنده: {{product.seller_first_name}} {{product.seller_last_name}}</div>
+            <a id="{{product.class}}" href="/product/{{product.pk}}" class="btn btn-success">صفحه محصول</a>
+            <div id="product_rate">{{product.rate}}</div>
+            <form id="rate_{{product.class}}" method="POST" action="/submit_rate/{{product.pk}}">
+                {% csrf_token %}
+                <input name="rate" type="number" min="0" max="5" placeholder="امتیاز">
+                <button name="submit" type="submit" class="btn">ثبت نظر</button>
+            </form>
         </div>
-        <div>فروشنده: {{product.seller_first_name}} {{product.seller_last_name}}</div>
-        <a id="{{product.class}}" href="/product/{{product.pk}}" class="btn btn-success">صفحه محصول</a>
-        <div id="product_rate">{{product.rate}}</div>
-        <form id="rate_{{product.class}}" method="POST" action="/submit_rate/{{product.pk}}">
-            {% csrf_token %}
-            <input name="rate" type="number" min="0" max="5" placeholder="امتیاز">
-            <button name="submit" type="submit" class="btn-success btn">ثبت نظر</button>
-        </form>
     </div>
 
     {% endfor %}

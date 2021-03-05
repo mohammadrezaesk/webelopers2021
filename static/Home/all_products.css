@@ -27,10 +27,10 @@ form{
 input, textarea{
     margin: 3px auto;
     text-align: center;
-    display: inline-block;
     border-radius: 50px !important;
     border: 1px black solid!important;
     width: 100% !important;
+    height: 100%;
     box-shadow: 0 0 10px black;
     font-size: 15px!important;
 

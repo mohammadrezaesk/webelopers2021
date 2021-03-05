@@ -1,7 +1,8 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 
-from Panel.models import Product, Rate
+from Panel.models import Product, Rate, Comment
 
 from webelopers2021.settings import EMAIL_HOST_USER
 
@@ -86,5 +87,17 @@ def submit_rate(request, prd_id):
 def product_page(request, prd_id):
     args = {}
     if request.method == "GET":
-        args["product"] = Product.objects.get(pk=prd_id)
+        product = Product.objects.get(pk=prd_id)
+        args["product"] = product
+        args["comments"] = Comment.objects.filter(product=product)
         return render(request, "Home/product.html", args)
+
+
+@login_required
+def write_comment(request, prd_id):
+    args = {}
+    product = Product.objects.get(pk=prd_id)
+    args['product'] = product
+    comment = Comment(user=request.user, product=product)
+    comment.save()
+    return redirect(f'/product/{prd_id}')

@@ -52,7 +52,6 @@ def my_products(request):
     args['is_seller'] = account.role == 'seller'
     if request.method == "GET":
         products = account.product_set.all()
-        print(products[3].tag_set.all())
         args["products"] = [
             {
                 'class': f'{product.name.replace(" ", "_")}_{product.seller.username.replace(" ", "_")}',
